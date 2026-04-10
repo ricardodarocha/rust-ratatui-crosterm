@@ -2,7 +2,21 @@
 name = "terminal"
 version = "0.1.0"
 edition = "2024"
+build = "build.rs"
 
 [dependencies]
 crossterm = "0.29.0"
 ratatui = { version = "0.30.0", features = ["all-widgets"] }
+
+[package.metadata.winres]
+OriginalFilename = "terminal0.exe"
+LegalCopyright = "Ricardo da Rocha <ricardodarocha@outlook.com>"
+FileDescription = "Terminal Template writen in Rust" 
+ProductName = "Terminal0"
+
+[build-dependencies]
+cargo_metadata = "0.12"
+winres = "0.1.12"
+
+[build]
+rustflags = ["-C", "link-args=-Wl,--subsystem,windows"]
