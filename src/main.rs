@@ -4,6 +4,22 @@ use std::time::Duration;
 use ratatui::prelude::*;
 use ratatui::Terminal;
 use ratatui::widgets::Paragraph;
+use clap::Parser;
+
+/// About documentation starts here
+/// see https://docs.rs/clap/latest/clap/_derive/_tutorial/index.html
+/// https://docs.rs/clap/latest/clap/
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+struct Args { 
+    /// Name of the person to greet
+    #[arg(short, long, value_name = "Anonymous")]
+    name: Option<String>,
+
+    /// Number of times to greet
+    #[arg(short, long, default_value_t = 1)]
+    count: u8,
+}
 
 use crossterm::{
     event::{self, Event, KeyCode},
@@ -14,6 +30,10 @@ use crossterm::{
 type Result<T> = std::result::Result<T, Box<dyn Error>>;
 
 fn main() -> Result<()> {
+
+    // todo! Do Somethin with args
+    let args = Args::parse();
+
     let mut terminal = setup_terminal()?;
     run(&mut terminal)?;
     restore_terminal(&mut terminal)?;
