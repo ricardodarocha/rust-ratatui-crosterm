@@ -70,14 +70,10 @@ fn run(terminal: &mut Terminal<CrosstermBackend<Stdout>>) -> Result<()> {
         })?;
         if event::poll(Duration::from_millis(250))? {
             if let Event::Key(key) = event::read()? {
-                if KeyCode::Char('q') == key.code {
-                    break;
-                }
-            }
-            
-            if let Event::Key(key) = event::read()? {
-                if KeyCode::Char('m') == key.code {
-                     terminal.show_cursor()?;
+                match key.code {
+                    KeyCode::Char('q') => break,
+                    KeyCode::Char('m') => terminal.show_cursor()?,
+                    _ => {}
                 }
             }
         }
