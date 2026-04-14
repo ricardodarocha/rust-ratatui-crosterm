@@ -4,13 +4,15 @@ use std::time::Duration;
 use ratatui::prelude::*;
 use ratatui::Terminal;
 use ratatui::widgets::Paragraph;
-use clap::Parser;
+use clap::{Parser, CommandFactory};
 
-/// About documentation starts here
-/// see https://docs.rs/clap/latest/clap/_derive/_tutorial/index.html
+/// About documentation starts here  
+/// 
+/// see https://docs.rs/clap/latest/clap/_derive/_tutorial/index.html  
+/// 
 /// https://docs.rs/clap/latest/clap/
 #[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
+#[command(version, about)]
 struct Args { 
     /// Name of the person to greet
     #[arg(short, long, value_name = "Anonymous")]
@@ -30,6 +32,11 @@ use crossterm::{
 type Result<T> = std::result::Result<T, Box<dyn Error>>;
 
 fn main() -> Result<()> {
+    if std::env::args().len() == 1 {
+        Args::command().print_help().unwrap();
+        println!();
+        std::process::exit(0);
+    }
 
     // todo! Do Somethin with args
     let args = Args::parse();
